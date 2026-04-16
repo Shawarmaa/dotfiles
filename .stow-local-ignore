@@ -1,0 +1,24 @@
+# Preserves stow defaults plus additions below.
+# Default stow ignores are overridden when this file exists, so they're re-listed here.
+RCS
+.+,v
+CVS
+\.\#.+
+\.cvsignore
+\.svn
+_darcs
+\.hg
+\.git
+\.gitignore
+\.gitmodules
+.+~
+\#.*\#
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# Our additions:
+\.DS_Store
+^/Brewfile$
+^/install\.sh$
+^/\.stow-local-ignore$
