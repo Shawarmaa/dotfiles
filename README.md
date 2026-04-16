@@ -2,11 +2,9 @@
 
 Dev environment, managed with GNU Stow + a Homebrew Brewfile.
 
-## New Mac
-
 ```bash
 xcode-select --install
-git clone https://github.com/<Shawarmaa>/dotfiles.git ~/dotfiles
+git clone https://github.com/Shawarmaa/dotfiles.git ~/dotfiles
 cd ~/dotfiles && ./install.sh
 ```
 
