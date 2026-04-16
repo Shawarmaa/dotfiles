@@ -52,7 +52,7 @@ brew "mas"
 
 # GUI apps
 cask "nikitabobko/tap/aerospace"
-cask "tw93/tap/kaku"
+cask "tw93/tap/kakuku"
 cask "claude-code"
 cask "codex"
 cask "raycast"
@@ -60,13 +60,6 @@ cask "font-jetbrains-mono-nerd-font"
 cask "skim"
 cask "obsidian"
 cask "anki"
-cask "android-studio"
 cask "tg-pro"
-cask "slack"
-cask "figma"
-cask "linear-linear"
 cask "helium-browser"
-cask "whatsapp"
 
-# Mac App Store (requires: sign in to App Store first)
-mas "Xcode", id: 497799835
