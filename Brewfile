@@ -62,4 +62,5 @@ cask "obsidian"
 cask "anki"
 cask "tg-pro"
 cask "helium-browser"
+cask "tailscale-app"
 
