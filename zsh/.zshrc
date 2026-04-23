@@ -19,4 +19,4 @@ export PATH="$HOME/.local/bin:$PATH"
 [[ -f "$HOME/.config/kaku/zsh/kaku.zsh" ]] && source "$HOME/.config/kaku/zsh/kaku.zsh" # Kaku Shell Integration
 
 #Claude alias
-alias cc="claude --dangerously-skip-permissions"
+alias cc="CLAUDE_CODE_AUTO_COMPACT_WINDOW=500000 claude --dangerously-skip-permissions"
