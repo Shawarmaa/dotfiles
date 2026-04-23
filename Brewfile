@@ -48,7 +48,6 @@ brew "fastlane"
 
 # Misc
 brew "mole"
-brew "mas"
 
 # GUI apps
 cask "nikitabobko/tap/aerospace"
@@ -62,5 +61,4 @@ cask "obsidian"
 cask "anki"
 cask "tg-pro"
 cask "helium-browser"
-cask "tailscale-app"
 
