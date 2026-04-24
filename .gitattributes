@@ -1,0 +1,4 @@
+claude/**/*.html linguist-vendored
+claude/**/*.py linguist-vendored
+agents/**/*.html linguist-vendored
+agents/**/*.py linguist-vendored

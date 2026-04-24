@@ -52,7 +52,7 @@ DEL=$(find "$REPO_DIR" -name .DS_Store -print -delete 2>/dev/null | wc -l | tr -
 echo "   ${G}✓${R} removed $DEL file(s)"
 
 # -----------------------------------------------------------------------------
-PKGS=(zsh git aerospace lazygit yazi kaku nvim)
+PKGS=(zsh git aerospace lazygit yazi kaku nvim claude agents)
 step "Stowing ${#PKGS[@]} packages"
 STOW_ERR=$(mktemp)
 for i in "${!PKGS[@]}"; do

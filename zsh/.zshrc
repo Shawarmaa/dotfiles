@@ -20,3 +20,5 @@ export PATH="$HOME/.local/bin:$PATH"
 
 #Claude alias
 alias cc="CLAUDE_CODE_AUTO_COMPACT_WINDOW=500000 claude --dangerously-skip-permissions"
+#Codex alias
+alias cx="codex --full-auto"
