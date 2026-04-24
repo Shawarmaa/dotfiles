@@ -761,9 +761,12 @@ Update `$VAULT_ROOT/$DAILY_DIR/YYYY/MM/DD-MM-YYYY ddd.md` (e.g. `01 Daily/2026/0
 
 ```markdown
 ## content summary
-- summarized [[Note Title]] — [1-line description of what it is]
-- created person notes: [[Person 1]], [[Person 2]], ...
+- [[Note Title]] — [short description, ~10 words max]
 ```
+
+**Keep it minimal.** One line per summary note: wikilink + short description. Do NOT list created person notes, reference notes, or use the word "summarized". The daily note is a quick index, not a changelog.
+
+**Description must add information the title doesn't already contain.** If the title is self-explanatory, omit the description entirely. Only add a description if there's a key insight or detail worth surfacing that isn't obvious from the title. Never mention the creator/author here (that's in the note's frontmatter). Bad: `[[How to Learn Japanese]] — guide on learning Japanese`. Bad: `[[How to Learn Japanese]] — by Livakivi`. Good: `[[How to Learn Japanese]]`. Good: `[[How Many Words Do You Need to Speak Arabic]] — native speakers know ~25k words`.
 
 ## Model usage
 

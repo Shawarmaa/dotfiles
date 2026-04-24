@@ -391,6 +391,36 @@ Summary length must be **proportional** to the source material. A 10-minute vide
 7. **Timestamps** on topic headings and quotes when available (YouTube, podcasts)
 8. **`people` field**: only people who created/appeared in the content. Mentioned people go in `## People Mentioned`
 
+### Prose style (applies to ALL generated content)
+
+All expository prose — section summaries, intuition paragraphs, commentary, practical tips — must follow these rules. Formal content (definitions, theorems, proofs, LaTeX, quotes) is exempt.
+
+**Kill adverbs.** Cut "remarkably," "incredibly," "fundamentally," "arguably," "surprisingly," "beautifully," "simply," "genuinely," "deeply," "certainly," "really," "literally," "honestly," "actually." Say what it does without the intensifier.
+
+**No AI vocabulary.** Replace: "delve" → examine; "leverage" → use; "utilize" → use; "robust" → strong/solid; "unpack" → explain; "harness" → use; "navigate challenges" → handle; "paradigm" → system/approach; "deep dive" → analysis; "game-changer" → significant; "landscape" → situation/field. Use "is" instead of "serves as," "stands as," "represents."
+
+**No pedagogical hand-holding.** Don't announce what you're about to explain. Cut: "Let's break this down," "Let's unpack what this means," "We want to build intuition about," "In this section we'll explore." Start with the content.
+
+**No false suspense or quotable lines.** Cut: "Here's the thing," "Here's where it gets interesting," "This is the crown jewel of..." State the point directly. If a line sounds like a pull-quote, rewrite it.
+
+**No fractal summaries.** Don't preview what you're about to say and then recap what you just said. Write the content once.
+
+**No negative parallelism.** Don't write "It's not X. It's Y" or "Not because X, but because Y." State Y directly.
+
+**Vary sentence length.** Mix short and long. Two items in a list beat three. Don't end every paragraph with a punchy one-liner.
+
+**Trust the reader.** State facts directly. Skip softening ("it's worth noting"), justification, and rhetorical questions ("The result? Devastating."). No "importantly," "notably," "interestingly."
+
+**Active voice.** Name who does what. No inanimate objects performing human actions.
+
+**Be specific.** No vague declaratives ("The implications are significant"). Name the specific implication. No lazy extremes ("every," "always," "never") doing vague work.
+
+**No em dashes.** Use commas, periods, or parentheses instead.
+
+**No emoji in prose.**
+
+These rules produce prose that reads like a sharp human wrote it, not like it was generated. The math stays formal; the commentary around it stays direct and natural.
+
 ### Audience adaptation
 
 - **High school / college student**: plain language, analogies, explain jargon inline before first wikilink use
@@ -532,16 +562,16 @@ Use callouts:]
 
 **Location:** `09 Summaries/<Code> <Name>/`
 
-**Writing style — CRITICAL:** Study notes must be written like you're explaining to a smart classmate, not extracting from a textbook. The goal is notes you can actually *learn from*, not a dry reference. Follow these principles:
+**Writing style — CRITICAL:** Study notes should read like a sharp classmate's notes, not a textbook extraction. The goal is notes you can learn from, not a dry reference. Follow these principles:
 
-1. **Lead with intuition, then formalize** — explain what a concept means in plain language *before* the formal definition callout. "A group is basically a set with an operation that behaves nicely — it's associative, has an identity, and everything has an inverse. Here's the formal version:"
-2. **Add "why it matters" after every definition/theorem** — not just "this is important" but *how it connects* to what came before and what comes after. "This matters because it lets us classify all groups of prime order — they're all cyclic."
-3. **Include practical tips** — shortcuts, common mistakes, which method to use when. "Only use the pivot to change rows below it so you don't undo the hard work !!!"
-4. **Worked examples should show reasoning**, not just the answer — "We choose column 2 because it has the most zeros, which simplifies the expansion"
-5. **Cross-reference between sections** — "This is the same as the kernel from Section 2.4 but now applied to group homomorphisms"
-6. **Summary lists at the end of dense sections** — tie everything together with key takeaways, equivalence lists, or decision trees for when to use which technique
-7. **Warnings and common pitfalls** — "Matrix multiplication is NOT commutative — don't assume AB = BA"
-8. **Use conversational asides** where they aid understanding — "Think of eigenvectors as vectors that only get stretched/compressed but not rotated"
+1. **Plain language before formalism** — explain what a concept means before the formal definition callout. Give the reader the idea first, then the machinery.
+2. **Say why it matters after every definition/theorem** — how it connects to what came before and what comes after. Not "this is important" but the specific consequence: "This lets us classify all groups of prime order as cyclic."
+3. **Practical tips** — shortcuts, common mistakes, which method to use when.
+4. **Worked examples show reasoning**, not just the answer — "We pick column 2 because it has the most zeros, which simplifies the expansion."
+5. **Cross-reference between sections** — "Same idea as the kernel from Section 2.4, now applied to group homomorphisms."
+6. **Short summary lists at the end of dense sections** — key takeaways, equivalence lists, or decision trees for when to use which technique. No preview of what you're about to summarize; just the list.
+7. **Warnings and pitfalls** — "Matrix multiplication is NOT commutative."
+8. **All prose must follow the Prose Style rules from Step 4** — kill adverbs, no hand-holding, no false suspense, no AI vocabulary, vary sentence length, trust the reader. The math stays formal; the commentary stays direct and natural.
 
 **Structure:**
 
@@ -596,9 +626,10 @@ What's an example that satisfies it and one that doesn't?]
 Section Y but now we're working in a different context."]
 ```
 
-**Dispatch:** For long PDFs (>20 pages), use parallel subagents (highest available model) — one per major section. Each subagent gets:
+**Dispatch:** For long PDFs (>20 pages), use parallel subagents (highest available model) per major section. Each subagent gets:
 - The section text from `marker` output
 - The writing style principles listed above (include them verbatim in the subagent prompt)
+- The **Prose Style rules from Step 4** (include them verbatim: kill adverbs, no hand-holding, no false suspense, no AI vocabulary, vary sentence length, trust the reader, no em dashes)
 - Instructions to preserve all definitions/theorems verbatim in callouts
 - Instructions to write proof sketches with reasoning (key idea + technique + why it works)
 - Instructions to include key examples with full step-by-step reasoning
@@ -606,7 +637,7 @@ Section Y but now we're working in a different context."]
 
 ### C5. Generate Full Notes (if requested)
 
-Same as Study Notes (including all writing style principles) but with **complete proofs** and **all examples** (not just key ones). Filename: `<Code> <Src> Full.md`.
+Same as Study Notes (including all writing style principles and the Prose Style rules from Step 4) but with **complete proofs** and **all examples** (not just key ones). Filename: `<Code> <Src> Full.md`.
 
 The only differences from Study Notes:
 - `> [!proof]` callouts contain the **complete proof** with commentary explaining *why* each step works, not just a sketch
@@ -761,9 +792,12 @@ Update `$VAULT_ROOT/$DAILY_DIR/YYYY/MM/DD-MM-YYYY ddd.md` (e.g. `01 Daily/2026/0
 
 ```markdown
 ## content summary
-- summarized [[Note Title]] — [1-line description of what it is]
-- created person notes: [[Person 1]], [[Person 2]], ...
+- [[Note Title]] — [short description, ~10 words max]
 ```
+
+**Keep it minimal.** One line per summary note: wikilink + short description. Do NOT list created person notes, reference notes, or use the word "summarized". The daily note is a quick index, not a changelog.
+
+**Description must add information the title doesn't already contain.** If the title is self-explanatory, omit the description entirely. Only add a description if there's a key insight or detail worth surfacing that isn't obvious from the title. Never mention the creator/author here (that's in the note's frontmatter). Bad: `[[How to Learn Japanese]] — guide on learning Japanese`. Bad: `[[How to Learn Japanese]] — by Livakivi`. Good: `[[How to Learn Japanese]]`. Good: `[[How Many Words Do You Need to Speak Arabic]] — native speakers know ~25k words`.
 
 ## Model usage
 

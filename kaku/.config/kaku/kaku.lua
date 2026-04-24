@@ -106,5 +106,4 @@ config.window_background_opacity = 0.8
 config.macos_window_background_blur = 10
 config.tab_close_confirmation = true
 config.pane_close_confirmation = true
-config.color_scheme = (wezterm.gui and wezterm.gui.get_appearance() or 'Dark'):find('Dark') and 'Kaku Dark' or 'Kaku Light'
 return config
