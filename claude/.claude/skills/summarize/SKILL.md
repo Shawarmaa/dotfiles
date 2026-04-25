@@ -155,9 +155,9 @@ For book chapter-by-chapter depth (Step 1 book section), detailed mode gets the 
 
 ### YouTube video
 ```bash
-# Get metadata
+# Get metadata (including description for chapters)
 yt-dlp --cookies-from-browser chrome \
-  --print "%(id)s|%(title)s|%(duration)s|%(upload_date)s|%(view_count)s|%(channel)s|%(channel_id)s" \
+  --print "%(id)s|%(title)s|%(duration)s|%(upload_date)s|%(view_count)s|%(channel)s|%(channel_id)s|%(description)s" \
   --no-download "<URL>"
 
 # Try auto-subtitles first (fastest, free)
@@ -168,6 +168,8 @@ yt-dlp --cookies-from-browser chrome \
 
 If auto-subs exist, extract text from the JSON3 file. If not, or if quality is poor:
 - Download audio and transcribe (same as `youtube-transcribe` skill — ask user: local mlx_whisper or ElevenLabs Scribe)
+
+**Chapter detection:** Parse the fetched `description` for timestamp patterns (e.g. `0:00`, `12:34`, `01:23:45`). If these exist, they **MUST** be used as the primary section boundaries for planning.
 
 ### Web article / blog post
 ```bash
@@ -322,6 +324,12 @@ If a channel/show folder is needed, check if it already exists before creating.
 ## Step 3: Analyze structure, determine depth, and plan sections
 
 Read the full extracted text. Identify the natural sections/chapters/topics.
+
+**Source Structure Priority:**
+1. **YouTube Description:** If the description contains timestamps/chapters, use them as the primary section boundaries.
+2. **Book/PDF Table of Contents:** For EPUBs or PDFs (non-course), use the TOC extracted in Step 1 as the primary section boundaries.
+3. **Course Notes:** Follow Step C's specific TOC extraction logic.
+4. **Natural Sectioning:** Only if no explicit chapters or TOC exist, identify topics based on the transcript's natural flow.
 
 ### 3a. Determine summary depth from source length
 
@@ -825,3 +833,4 @@ Update `$VAULT_ROOT/$DAILY_DIR/YYYY/MM/DD-MM-YYYY ddd.md` (e.g. `01 Daily/2026/0
 12. **Course notes completeness is mandatory** — verify against both TOC and content body. Every definition, theorem, lemma, and example must be accounted for
 13. **Cheat sheet order: Formulas → Core Concepts → Definitions & Theorems** — never deviate from this structure
 14. **One cheat sheet per course, updated incrementally** — don't overwrite material from other semesters when adding new content
+15. **Every chapter must be represented** — every chapter defined in the YouTube description, EPUB TOC, or PDF TOC **MUST** have a corresponding section in the summary note, regardless of the chosen depth mode. Minimal mode simply makes these sections more concise.

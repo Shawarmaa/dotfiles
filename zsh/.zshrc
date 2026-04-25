@@ -22,3 +22,4 @@ export PATH="$HOME/.local/bin:$PATH"
 alias cc="CLAUDE_CODE_AUTO_COMPACT_WINDOW=500000 claude --dangerously-skip-permissions"
 #Codex alias
 alias cx="codex --full-auto"
+alias gm="gemini --yolo"
