@@ -106,4 +106,6 @@ config.window_background_opacity = 0.8
 config.macos_window_background_blur = 10
 config.tab_close_confirmation = true
 config.pane_close_confirmation = true
+config.tab_title_show_basename_only = true
+config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
 return config
