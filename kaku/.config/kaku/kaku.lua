@@ -107,5 +107,6 @@ config.macos_window_background_blur = 10
 config.tab_close_confirmation = true
 config.pane_close_confirmation = true
 config.tab_title_show_basename_only = true
-config.window_decorations = 'INTEGRATED_BUTTONS|RESIZE'
+config.window_decorations = 'RESIZE'
+config.window_padding = { left = '0px', right = '0px', top = '0px', bottom = '0px' }
 return config
