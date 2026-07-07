@@ -47,6 +47,15 @@ else
 fi
 
 # -----------------------------------------------------------------------------
+BUN_PKGS=("@aws-amplify/cli" clawdhub eas-cli opencode-ai)
+step "Installing ${#BUN_PKGS[@]} bun global packages"
+if bun install -g "${BUN_PKGS[@]}" >/dev/null 2>&1; then
+  echo "   ${G}✓${R} all ${#BUN_PKGS[@]} packages installed"
+else
+  echo "   ${Y}!${R} bun global install failed — run manually: bun install -g ${BUN_PKGS[*]}"
+fi
+
+# -----------------------------------------------------------------------------
 step "Cleaning .DS_Store"
 DEL=$(find "$REPO_DIR" -name .DS_Store -print -delete 2>/dev/null | wc -l | tr -d ' ')
 echo "   ${G}✓${R} removed $DEL file(s)"

@@ -15,6 +15,7 @@ brew "stow"
 
 # Git / dev tools
 brew "gh"
+brew "herdr"
 brew "lazygit"
 brew "neovim"
 brew "yazi"
