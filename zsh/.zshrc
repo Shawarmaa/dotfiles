@@ -6,7 +6,7 @@ export NVM_DIR="$HOME/.nvm"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"
 
-export PATH="/Users/muhammadabdullah/.bun/bin:$PATH"
+export PATH="$HOME/.bun/bin:$PATH"
 
 # Android SDK platform-tools
 export PATH="$PATH:$HOME/Library/Android/sdk/platform-tools"
@@ -23,3 +23,6 @@ alias cc="CLAUDE_CODE_AUTO_COMPACT_WINDOW=500000 claude --dangerously-skip-permi
 #Codex alias
 alias cx="codex --full-auto"
 alias gm="gemini --yolo"
+
+# Machine-specific config (work laptop etc.) — keep in ~/.zshrc.local, not tracked
+[[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

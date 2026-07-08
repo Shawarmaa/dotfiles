@@ -3,3 +3,6 @@
 	name = Muhammad Abdullah
 [http]
 	postBuffer = 157286400
+# Machine-specific overrides (e.g. work identity) — values here win
+[include]
+	path = ~/.gitconfig.local
