@@ -15,6 +15,30 @@ step() { echo; echo "${B}${C}==> $1${R}"; }
 START=$SECONDS
 
 # -----------------------------------------------------------------------------
+# Usage:
+#   ./install.sh                 full install (apps + all configs)
+#   ./install.sh apps            Homebrew/Brewfile + bun packages only
+#   ./install.sh nvim kaku ...   stow only the named config packages
+ALL_PKGS=(zsh git aerospace lazygit yazi kaku nvim claude agents)
+DO_APPS=1
+PKGS=("${ALL_PKGS[@]}")
+if [ $# -gt 0 ]; then
+  if [ "$1" = "apps" ]; then
+    PKGS=()
+  else
+    DO_APPS=0
+    PKGS=()
+    for a in "$@"; do
+      case " ${ALL_PKGS[*]} " in
+        *" $a "*) PKGS+=("$a") ;;
+        *) echo "unknown package: $a"; echo "available: ${ALL_PKGS[*]} (or 'apps')"; exit 1 ;;
+      esac
+    done
+  fi
+fi
+
+# -----------------------------------------------------------------------------
+if [ "$DO_APPS" -eq 1 ]; then
 step "Homebrew"
 if ! command -v brew >/dev/null 2>&1; then
   echo "${D}   installing...${R}"
@@ -68,6 +92,7 @@ elif bun install -g "${BUN_PKGS[@]}" >/dev/null 2>&1; then
 else
   echo "   ${Y}!${R} bun global install failed — run manually: bun install -g ${BUN_PKGS[*]}"
 fi
+fi  # DO_APPS
 
 # -----------------------------------------------------------------------------
 step "Cleaning .DS_Store"
@@ -75,7 +100,7 @@ DEL=$(find "$REPO_DIR" -name .DS_Store -print -delete 2>/dev/null | wc -l | tr -
 echo "   ${G}✓${R} removed $DEL file(s)"
 
 # -----------------------------------------------------------------------------
-PKGS=(zsh git aerospace lazygit yazi kaku nvim claude agents)
+if [ ${#PKGS[@]} -gt 0 ]; then
 step "Stowing ${#PKGS[@]} packages"
 if ! command -v stow >/dev/null 2>&1; then
   echo "   ${Y}!${R} stow not found — fix the brew failures above, then re-run ./install.sh"
@@ -95,12 +120,15 @@ for i in "${!PKGS[@]}"; do
 done
 rm -f "$STOW_ERR"
 echo
-echo "   ${G}✓${R} all packages stowed"
+echo "   ${G}✓${R} all ${#PKGS[@]} package(s) stowed"
+fi  # PKGS
 
 # -----------------------------------------------------------------------------
 ELAPSED=$((SECONDS - START))
 echo
 echo "${B}${G}✓ Done${R} in $((ELAPSED / 60))m$((ELAPSED % 60))s"
+
+[ "$DO_APPS" -eq 1 ] || exit 0
 echo
 cat <<EOF
 ${B}Next:${R}
