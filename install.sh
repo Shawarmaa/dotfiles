@@ -25,11 +25,20 @@ echo "   ${G}✓${R} $(brew --version | head -1)"
 
 # -----------------------------------------------------------------------------
 BREWFILE="$REPO_DIR/Brewfile"
+
+# Homebrew 6+ refuses to install from untrusted third-party taps
+if brew trust --help >/dev/null 2>&1; then
+  grep -E '^tap ' "$BREWFILE" | cut -d'"' -f2 | while read -r t; do
+    brew trust --tap "$t" >/dev/null 2>&1 || true
+  done
+fi
+
 TOTAL=$(grep -cE '^(brew|cask|tap|mas) ' "$BREWFILE")
 step "Installing $TOTAL packages"
 
-# All brew output silenced. Only the rolling counter shows.
-brew bundle --file="$BREWFILE" --no-upgrade 2>/dev/null | awk -v total="$TOTAL" -v D="$D" -v R="$R" '
+# Brew stderr goes to a log so failures are diagnosable. Only the rolling counter shows.
+BREW_LOG=$(mktemp)
+brew bundle --file="$BREWFILE" --no-upgrade 2>"$BREW_LOG" | awk -v total="$TOTAL" -v D="$D" -v R="$R" '
   /^(Installing|Using|Tapping) [^ ]+$/ {
     if (count < total) count++
     printf "\r\033[K   %s[%d/%d]%s %s", D, count, total, R, $2
@@ -42,14 +51,19 @@ echo
 MISSING=$(brew bundle check --file="$BREWFILE" --no-upgrade --verbose 2>/dev/null | grep -c -E "not installed|needs to be installed" || true)
 if [ "${MISSING:-0}" -eq 0 ]; then
   echo "   ${G}✓${R} all $TOTAL packages installed"
+  rm -f "$BREW_LOG"
 else
-  echo "   ${Y}!${R} $MISSING package(s) skipped (often pre-existing apps — safe to ignore)"
+  echo "   ${Y}!${R} $MISSING package(s) not installed — brew errors:"
+  grep -iE 'error|fail' "$BREW_LOG" | head -15 | sed 's/^/     /'
+  echo "   ${D}full log: $BREW_LOG${R}"
 fi
 
 # -----------------------------------------------------------------------------
 BUN_PKGS=("@aws-amplify/cli" clawdhub eas-cli opencode-ai)
 step "Installing ${#BUN_PKGS[@]} bun global packages"
-if bun install -g "${BUN_PKGS[@]}" >/dev/null 2>&1; then
+if ! command -v bun >/dev/null 2>&1; then
+  echo "   ${Y}!${R} bun not found (brew bundle failed above?) — skipping"
+elif bun install -g "${BUN_PKGS[@]}" >/dev/null 2>&1; then
   echo "   ${G}✓${R} all ${#BUN_PKGS[@]} packages installed"
 else
   echo "   ${Y}!${R} bun global install failed — run manually: bun install -g ${BUN_PKGS[*]}"
@@ -63,6 +77,10 @@ echo "   ${G}✓${R} removed $DEL file(s)"
 # -----------------------------------------------------------------------------
 PKGS=(zsh git aerospace lazygit yazi kaku nvim claude agents)
 step "Stowing ${#PKGS[@]} packages"
+if ! command -v stow >/dev/null 2>&1; then
+  echo "   ${Y}!${R} stow not found — fix the brew failures above, then re-run ./install.sh"
+  exit 1
+fi
 STOW_ERR=$(mktemp)
 for i in "${!PKGS[@]}"; do
   n=$((i + 1))
