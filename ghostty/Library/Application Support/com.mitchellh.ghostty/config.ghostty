@@ -43,6 +43,11 @@ keybind = super+shift+[=text:\x02p
 keybind = super+shift+right_bracket=text:\x02n
 keybind = super+shift+]=text:\x02n
 keybind = super+shift+n=text:\x02G
+
+# Runs a command in the focused pane rather than talking to herdr. \x15 is
+# ctrl+u, clearing anything half-typed, then the name and a carriage return.
+keybind = super+shift+g=text:\x15lazygit\x0d
+
 keybind = super+d=text:\x02v
 keybind = super+shift+d=text:\x02-
 keybind = super+x=text:\x02x
