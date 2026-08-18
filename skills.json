@@ -1,0 +1,25 @@
+{
+  "//": "Agent skills installed from upstream repos. Like the Brewfile, but for skills.",
+  "//dest": "Skills land in agents/.agents/skills/<name>/ and are gitignored — this file is the source of truth.",
+  "//ref": "Optional. Pin to a commit SHA or tag; omit to track the repo's default branch.",
+  "//authored": "Hand-written skills (e.g. summarize) are NOT listed here and stay tracked in git.",
+
+  "dest": "agents/.agents/skills",
+
+  "skills": [
+    { "name": "check",       "repo": "https://github.com/tw93/Waza.git",              "path": "skills/check" },
+    { "name": "health",      "repo": "https://github.com/tw93/Waza.git",              "path": "skills/health" },
+    { "name": "hunt",        "repo": "https://github.com/tw93/Waza.git",              "path": "skills/hunt" },
+    { "name": "learn",       "repo": "https://github.com/tw93/Waza.git",              "path": "skills/learn" },
+    { "name": "read",        "repo": "https://github.com/tw93/Waza.git",              "path": "skills/read" },
+    { "name": "think",       "repo": "https://github.com/tw93/Waza.git",              "path": "skills/think" },
+    { "name": "ui",          "repo": "https://github.com/tw93/Waza.git",              "path": "skills/ui" },
+    { "name": "write",       "repo": "https://github.com/tw93/Waza.git",              "path": "skills/write" },
+    { "name": "kami",        "repo": "https://github.com/tw93/kami.git",              "path": ".",
+      "//": "SKILL.md sits at the repo root; pull only what it references. Skips 21MB of demos/showcase.",
+      "include": ["SKILL.md", "references", "scripts",
+                  "assets/diagrams", "assets/templates", "assets/images", "assets/fonts"] },
+
+    { "name": "herdr",       "repo": "https://github.com/ogulcancelik/herdr.git",     "path": "skills/herdr" }
+  ]
+}

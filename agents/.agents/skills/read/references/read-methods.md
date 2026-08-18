@@ -91,19 +91,20 @@ Resolve the built-in helper script directory once. This works from a single-skil
 ```bash
 READ_SCRIPT_DIR=""
 for candidate in \
-  "${CLAUDE_SKILL_DIR:+$CLAUDE_SKILL_DIR/scripts}" \
-  "${CLAUDE_SKILL_DIR:+$CLAUDE_SKILL_DIR/skills/read/scripts}" \
-  "./skills/read/scripts"; do
-  if [ -n "$candidate" ] && [ -f "$candidate/fetch_feishu.py" ]; then
+  "<skill-base-dir>/scripts" \
+  "<skill-base-dir>/skills/read/scripts"; do
+  if [ -f "$candidate/fetch_feishu.py" ]; then
     READ_SCRIPT_DIR="$candidate"
     break
   fi
 done
 if [ -z "$READ_SCRIPT_DIR" ]; then
-  echo "read helper scripts not found; set CLAUDE_SKILL_DIR or run from the Waza repo root" >&2
+  echo "read helper scripts not found under the installed skill base; reinstall Waza" >&2
   exit 1
 fi
 ```
+
+Replace `<skill-base-dir>` with the installed Read skill or Waza dispatcher directory.
 
 Requires `requests` and Feishu app credentials:
 
@@ -116,6 +117,16 @@ python3 "$READ_SCRIPT_DIR/fetch_feishu.py" "{url}"
 
 Supports: docx and wiki pages. Legacy `/docs/` pages are not supported by this script; convert them to docx first, or use a public-page fallback if the document is accessible without the API. App needs `docx:document:readonly` and `wiki:wiki:readonly` permissions.
 Output: YAML frontmatter (title, document_id, url) + Markdown body.
+
+Do not tell every user to install `lark-cli` up front. Use it as the user-login fallback when the API helper fails because app credentials are missing, or when the user explicitly prefers OAuth login over `FEISHU_APP_ID` / `FEISHU_APP_SECRET`:
+
+```bash
+npm install -g @larksuite/cli  # one-time setup if lark-cli is absent
+lark-cli auth login            # one-time login
+lark-cli docs +fetch --doc "{url}" --format json
+```
+
+`lark-cli docs +fetch` returns structured document JSON, not final Markdown. Extract and convert the useful content before answering; do not return raw JSON.
 
 ## WeChat Public Account
 

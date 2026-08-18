@@ -1,0 +1,56 @@
+shell-integration = zsh
+term = xterm-256color
+
+window-decoration = false
+window-height = 80
+window-width = 180
+window-padding-x = 0
+window-padding-y = 0
+quick-terminal-animation-duration = 0.1
+resize-overlay-duration = 2s 500ms
+
+# Follows the macOS light/dark appearance
+theme = dark:dark,light:light
+
+background-opacity = 0.9
+background-blur-radius = 10
+unfocused-split-opacity = 1
+
+font-family = JetBrainsMono NFM
+font-size = 15
+adjust-cell-height = 28%
+font-style-bold = true
+minimum-contrast = 1
+mouse-hide-while-typing = true
+
+window-save-state = always
+font-thicken = true
+clipboard-paste-protection = false
+
+# Option acts as Alt, so opt+delete deletes a word in TUIs
+macos-option-as-alt = true
+
+keybind = super+v=paste_from_clipboard
+
+# Herdr keybindings. Cmd is never encoded to the program inside the terminal, so
+# these send herdr's prefix (ctrl+b = \x02) followed by the action key instead of
+# trying to bind cmd in herdr itself. The herdr half lives in
+# ~/.config/herdr/config.toml — change both or neither.
+keybind = super+t=text:\x02c
+keybind = super+r=text:\x02T
+keybind = super+shift+left_bracket=text:\x02p
+keybind = super+shift+[=text:\x02p
+keybind = super+shift+right_bracket=text:\x02n
+keybind = super+shift+]=text:\x02n
+keybind = super+d=text:\x02v
+keybind = super+shift+d=text:\x02-
+keybind = super+x=text:\x02x
+keybind = super+w=text:\x02x
+
+# Previous / next workspace. Both spellings of each chord are bound: Ghostty
+# registers defaults under the physical key AND the character, and a surviving
+# half wins over a single override (this is what broke cmd+1..9 and cmd+[).
+keybind = super+left_bracket=text:\x02u
+keybind = super+[=text:\x02u
+keybind = super+right_bracket=text:\x02i
+keybind = super+]=text:\x02i

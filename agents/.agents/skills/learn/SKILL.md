@@ -9,9 +9,7 @@ dispatch_intent: "Deep research, unfamiliar domain, compile sources into output"
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
 
-**Update check (non-blocking).** Before starting, run `bash scripts/check-update.sh` once; if it prints a line, relay it to the user, then continue. It runs at most once a day, only reads a public version file, sends no data, and fails silently.
-
-Collect, organize, translate, explain, structure. Support the user's thinking; do not replace it.
+Support the user's thinking; do not replace it.
 
 ## Outcome Contract
 
@@ -68,7 +66,7 @@ Target: 5-10 sources for a blog post, 15-20 for a deep technical survey.
 
 ## Phase 2: Digest
 
-Work through the materials. For each piece: read it fully, keep what is good, cut what is not. At the end of this phase, cut roughly half of what was collected.
+Work through the materials. For each piece: read it fully, keep what is good, cut ruthlessly what is not.
 
 For key claims, ask before including in the outline:
 - Does this idea appear in at least two different contexts from the same source?
@@ -76,8 +74,6 @@ For key claims, ask before including in the outline:
 - Is this specific to this source, or would any expert in the field say the same thing?
 
 Generic wisdom is not worth distilling. Passes two or three: belongs in the outline. Passes one: background material. Passes zero: cut it.
-
-When two sources contradict on a factual claim, note both positions and the evidence each gives. Do not silently pick one.
 
 ### Conversation Or Review Distillation
 
@@ -95,30 +91,13 @@ When the input is a recent conversation, project review, scorecard, or diagnosti
 
 Write the outline for the article. For each section: note the source materials it draws from. If a section has no sources, either it does not belong or a source needs to be found first.
 
-Do not start Phase 4 until the outline is solid.
-
 ## Phase 4: Fill In
 
-Work through the outline section by section. If a section is hard to write, the mental model is still weak there: return to Phase 2 for that sub-topic. The outline may change, and that is fine.
-
-Stall signals (any one means the mental model is incomplete for this section):
-- You have rewritten the opening sentence three or more times without settling
-- The section relies on a single source and you cannot cross-check the claim
-- You need a new source that was not collected in Phase 1
-- The paragraph makes a claim you could not explain to someone out loud
-
-When stalled: return to Phase 2 for that sub-topic, not for the whole article.
+Work through the outline section by section. A section that is hard to write means the mental model is still weak there: return to Phase 2 for that sub-topic, not the whole article. Stall signals: an opening sentence rewritten three times without settling, a single-source claim with no cross-check, a source missing from Phase 1, or a claim you could not explain out loud. The outline may change, and that is fine.
 
 ## Phase 5: Refine
 
-Pass the draft with a specific brief:
-- Remove redundant and verbose passages without changing meaning or voice
-- Flag places where the argument does not flow
-- Identify gaps: concepts used before they are explained, claims needing sources
-
-Do not summarize sections the user has not written. Do not draft new sections from scratch. Edits only.
-
-Then strip AI patterns from the draft. If `/write` is installed, invoke it. If not, do it manually: scan for filler phrases, binary contrasts, dramatic fragmentation, and overused adverbs. Cut them without changing meaning.
+Edits only: cut redundancy without changing meaning or voice, flag broken argument flow, and mark gaps (concepts used before they are explained, claims needing sources). Do not draft new sections from scratch. Then strip AI patterns: invoke `/write` when installed, otherwise scan manually for filler, binary contrasts, and dramatic fragmentation.
 
 ## Phase 6: Self-review and Publish Readiness
 
@@ -126,7 +105,11 @@ The user reads the entire article linearly before publishing. Not with AI. Mark 
 
 When it reads clean from start to finish, the draft is ready for the user to publish.
 
-**After the user confirms the article is ready to publish, stop.** Do not upload, post, distribute, or perform any publish action unless explicitly asked.
+## Hard Rules
+
+- **No Phase 4 before the outline is solid.** A section with no sources either does not belong or needs a source found first.
+- **Contradictions stay visible.** When two sources contradict on a factual claim, note both positions and the evidence each gives; never silently pick one.
+- **Stop at publish confirmation.** After the user confirms the article is ready, do not upload, post, distribute, or perform any publish action unless explicitly asked.
 
 ## Gotchas
 

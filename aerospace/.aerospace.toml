@@ -1,6 +1,6 @@
 # Forced monitor assignments
 [workspace-to-monitor-force-assignment]
-2 = 'AW2521HF'
+2 = 'built-in'
 
 [mode.main.binding]
 

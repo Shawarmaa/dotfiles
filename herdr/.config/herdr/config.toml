@@ -1,0 +1,30 @@
+onboarding = false
+
+# Ghostty cannot transmit cmd to the program inside it, so the cmd chords live
+# in the Ghostty config, where each one sends "prefix + key" as literal bytes.
+# These are the herdr-side halves of those chords — change both or neither.
+[keys]
+# Tabs           cmd+t / cmd+r / cmd+shift+[ / cmd+shift+]
+new_tab = "prefix+c"
+rename_tab = "prefix+shift+t"
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+
+# Workspaces     cmd+[ / cmd+]
+# u and i because every shorter letter is already a default prefix action.
+previous_workspace = "prefix+u"
+next_workspace = "prefix+i"
+
+# Splits         cmd+d / cmd+shift+d
+split_vertical = "prefix+v"       # new pane to the right
+split_horizontal = "prefix+minus" # new pane below
+
+# Pane lifecycle cmd+x
+close_pane = "prefix+x"
+
+[ui]
+agent_panel_scope = "all"
+
+show_agent_labels_on_pane_borders = false
+[theme]
+name = "dracula"

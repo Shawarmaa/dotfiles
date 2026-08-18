@@ -18,36 +18,25 @@ from collections import Counter
 from pathlib import Path
 
 
+# Mechanical definitions (excluded dirs, source extensions, marker regex,
+# minified filter) are kept identical with skills/check/scripts/audit_signals.py
+# by tests/python/test_auditor_alignment.py; thresholds stay per-product.
 EXCLUDED_DIRS = {
-    ".git",
-    ".hg",
-    ".svn",
-    "node_modules",
-    "dist",
-    "build",
-    ".next",
-    "__pycache__",
-    ".turbo",
-    "target",
-    ".venv",
-    "venv",
-    "vendor",
-    "coverage",
-    ".cache",
-    ".parcel-cache",
-    ".pytest_cache",
-    ".mypy_cache",
-    ".ruff_cache",
+    ".git", ".hg", ".svn", "node_modules", "dist", "build", ".next",
+    "__pycache__", ".turbo", "target", ".venv", "venv", "vendor",
+    "coverage", ".cache", ".parcel-cache", ".pytest_cache", ".mypy_cache",
+    ".ruff_cache", "Pods", "Carthage", ".swiftpm", ".gradle",
 }
 
 SOURCE_EXTS = {
-    ".c", ".cc", ".cpp", ".cs", ".css", ".go", ".h", ".hpp", ".html",
-    ".java", ".js", ".jsx", ".kt", ".lua", ".m", ".mm", ".md", ".mjs",
-    ".php", ".py", ".rb", ".rs", ".scss", ".sh", ".swift", ".ts", ".tsx",
-    ".vue", ".yaml", ".yml",
+    ".bash", ".c", ".cc", ".cpp", ".cs", ".css", ".go", ".h", ".hpp",
+    ".html", ".java", ".js", ".jsx", ".kt", ".lua", ".m", ".mjs", ".mm",
+    ".md", ".php", ".py", ".rb", ".rs", ".scss", ".sh", ".swift", ".ts",
+    ".tsx", ".vue", ".yaml", ".yml", ".zsh",
 }
 
 MARKER_RE = re.compile(r"\b(TODO|FIXME|HACK|XXX)\b", re.IGNORECASE)
+MINIFIED_RE = re.compile(r"\.min\.[a-z]+$", re.IGNORECASE)
 MAKE_RE = re.compile(r"^([A-Za-z0-9_.-]+)\s*:(?![=])")
 MAKE_CMD_RE = re.compile(r"\bmake\s+([A-Za-z0-9_.-]+)\b")
 NPM_CMD_RE = re.compile(r"\b(?:npm|pnpm|yarn|bun)\s+run\s+([A-Za-z0-9:_-]+)\b")
@@ -81,7 +70,9 @@ def rel(path: Path, root: Path) -> str:
 
 def is_excluded(path: Path, root: Path) -> bool:
     parts = path.relative_to(root).parts if path.is_absolute() else path.parts
-    return any(part in EXCLUDED_DIRS for part in parts)
+    if any(part in EXCLUDED_DIRS for part in parts):
+        return True
+    return bool(MINIFIED_RE.search(path.name))
 
 
 def read_text(path: Path, limit: int | None = None) -> str:
@@ -95,8 +86,19 @@ def read_text(path: Path, limit: int | None = None) -> str:
 def iter_files(root: Path) -> list[Path]:
     try:
         proc = subprocess.run(
-            ["git", "-C", str(root), "ls-files", "--cached", "--others", "--exclude-standard"],
-            text=True,
+            [
+                "git",
+                "-c",
+                "core.fsmonitor=false",
+                "-C",
+                str(root),
+                "ls-files",
+                "--cached",
+                "--others",
+                "--exclude-standard",
+            ],
+            encoding="utf-8",
+            errors="replace",
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
             check=False,
@@ -462,9 +464,15 @@ def main() -> int:
     doc_ref_detail = ""
     checker = os.environ.get("DOC_REF_CHECKER")
     if checker and Path(checker).is_file():
+        checker_command = (
+            [sys.executable, checker, str(root)]
+            if Path(checker).suffix == ".py"
+            else ["bash", checker, str(root)]
+        )
         proc = subprocess.run(
-            ["bash", checker, str(root)],
-            text=True,
+            checker_command,
+            encoding="utf-8",
+            errors="replace",
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             check=False,
