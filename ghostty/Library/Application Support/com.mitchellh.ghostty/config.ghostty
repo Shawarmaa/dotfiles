@@ -42,6 +42,7 @@ keybind = super+shift+left_bracket=text:\x02p
 keybind = super+shift+[=text:\x02p
 keybind = super+shift+right_bracket=text:\x02n
 keybind = super+shift+]=text:\x02n
+keybind = super+shift+n=text:\x02G
 keybind = super+d=text:\x02v
 keybind = super+shift+d=text:\x02-
 keybind = super+x=text:\x02x
