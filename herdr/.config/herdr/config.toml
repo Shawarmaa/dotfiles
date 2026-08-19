@@ -25,9 +25,13 @@ split_horizontal = "prefix+minus" # new pane below
 # Pane lifecycle cmd+x
 close_pane = "prefix+x"
 
+# Sidebar          cmd+b
+toggle_sidebar = "prefix+b"
+
 [ui]
 agent_panel_scope = "all"
-
+tab_bar_position = "bottom"
 show_agent_labels_on_pane_borders = false
+agent_panel_sort = "spaces"
 [theme]
 name = "dracula"

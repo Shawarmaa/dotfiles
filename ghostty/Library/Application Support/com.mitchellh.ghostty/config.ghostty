@@ -53,6 +53,9 @@ keybind = super+shift+d=text:\x02-
 keybind = super+x=text:\x02x
 keybind = super+w=text:\x02x
 
+# Sidebar (left pane) toggle
+keybind = super+b=text:\x02b
+
 # Previous / next workspace. Both spellings of each chord are bound: Ghostty
 # registers defaults under the physical key AND the character, and a surviving
 # half wins over a single override (this is what broke cmd+1..9 and cmd+[).
