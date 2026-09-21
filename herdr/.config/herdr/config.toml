@@ -28,6 +28,14 @@ close_pane = "prefix+x"
 # Sidebar        cmd+b
 toggle_sidebar = "prefix+b"
 
+# Pane focus  cmd+shift+h / j / k / l
+# These are herdr's defaults; spelled out because the Ghostty half sends bare
+# prefix+h..l, and a remap of these letters would silently break that chord.
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+
 # Zoom           cmd+z
 # prefix+z is already herdr's default; spelled out so the cmd+z pair is
 # visible here alongside the rest of the chords.

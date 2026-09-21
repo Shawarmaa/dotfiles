@@ -59,6 +59,14 @@ keybind = super+b=text:\x02b
 # Zoom the focused pane to fill the tab
 keybind = super+z=text:\x02z
 
+# Move focus between panes in a tab, vim-style. super+shift+j also overrides
+# Ghostty's default write_screen_file:paste, which pasted a /private/var
+# screen.txt path into the pane.
+keybind = super+shift+h=text:\x02h
+keybind = super+shift+j=text:\x02j
+keybind = super+shift+k=text:\x02k
+keybind = super+shift+l=text:\x02l
+
 # Previous / next workspace. Both spellings of each chord are bound: Ghostty
 # registers defaults under the physical key AND the character, and a surviving
 # half wins over a single override (this is what broke cmd+1..9 and cmd+[).
