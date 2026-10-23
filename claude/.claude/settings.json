@@ -1,5 +1,8 @@
 {
-  "model": "opus[1m]",
+  "env": {
+    "CLAUDE_CODE_AUTO_COMPACT_WINDOW": "600000"
+  },
+  "model": "opus",
   "statusLine": {
     "type": "command",
     "command": "bash ~/.claude/statusline.sh"
@@ -18,5 +21,6 @@
   "effortLevel": "medium",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
+  "switchModelsOnFlag": true,
   "agentPushNotifEnabled": true
 }

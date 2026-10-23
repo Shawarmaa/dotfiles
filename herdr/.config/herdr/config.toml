@@ -15,7 +15,7 @@ next_tab = "prefix+n"
 previous_workspace = "prefix+u"
 next_workspace = "prefix+i"
 
-# Worktrees      cmd+shift+n
+# Worktrees      (no cmd chord; prefix+shift+g inside herdr)
 new_worktree = "prefix+shift+g"
 
 # Splits         cmd+d / cmd+shift+d
@@ -40,6 +40,15 @@ focus_pane_right = "prefix+l"
 # prefix+z is already herdr's default; spelled out so the cmd+z pair is
 # visible here alongside the rest of the chords.
 zoom = "prefix+z"
+
+# New workspace  cmd+shift+n
+# A custom command rather than the built-in new_workspace, because that one
+# inherits the focused pane's directory and this should always start in ~.
+# y because every shorter letter is already a default prefix action.
+[[keys.command]]
+key = "prefix+y"
+type = "shell"
+command = "/opt/homebrew/bin/herdr workspace create --cwd \"$HOME\" --focus"
 
 [ui]
 tab_bar_position = "bottom"
