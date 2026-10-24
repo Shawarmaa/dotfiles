@@ -23,6 +23,29 @@ autoload -Uz compinit bashcompinit && compinit -C && bashcompinit
 command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
 
+# ===== nvm: auto-switch to a directory's .nvmrc =====
+# oblex-frontend pins node 24.15.0 in .nvmrc and sets engine-strict in package.json,
+# so npm refuses to run on the system default (25.x). This switches on cd so `npm ci`
+# and `npm run dev` just work there, and reverts to the default elsewhere.
+autoload -U add-zsh-hook
+_load_nvmrc() {
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use --silent
+    fi
+  elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+    nvm use default --silent
+  fi
+}
+add-zsh-hook chpwd _load_nvmrc
+_load_nvmrc
+
 # fast-syntax-highlighting (what Kaku used) — repaints less, no flicker
 source /opt/homebrew/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
@@ -46,8 +69,7 @@ bindkey -e
 bindkey '^[[A' up-line-or-beginning-search
 bindkey '^[[B' down-line-or-beginning-search
 
-# Ghostty sends Ctrl+V for Cmd+V (so Claude Code can grab clipboard images);
-# make Ctrl+V paste real text here instead of zsh's quoted-insert
+# Ctrl+V pastes clipboard text at the prompt instead of zsh's quoted-insert
 _paste_clipboard() { LBUFFER+="$(pbpaste)" }
 zle -N _paste_clipboard
 bindkey '^V' _paste_clipboard
@@ -78,3 +100,9 @@ alias gm="gemini --yolo"
 
 # Machine-specific config (work laptop etc.) — keep in ~/.zshrc.local, not tracked
 [[ -f "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+export PATH=$PATH:$HOME/.maestro/bin
+
+# Rex puts its own rex first on PATH, but the exports above push it down.
+# Keep this last.
+[[ -n "$REX_BIN_DIR" ]] && export PATH="$REX_BIN_DIR:$PATH"
+

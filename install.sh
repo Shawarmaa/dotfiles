@@ -18,8 +18,7 @@ START=$SECONDS
 # report exactly what was left alone. Two flags matter here:
 #   --no-folding  link files, never whole directories. Without it stow points a
 #                 missing target dir straight at the repo, and everything the app
-#                 writes later (herdr's logs and sockets, Ghostty's auto/ state)
-#                 lands inside git.
+#                 writes later (logs, sockets, caches) lands inside git.
 #   no --adopt    on a conflict stow leaves the machine's file untouched. --adopt
 #                 would pull that file into the repo and overwrite the committed
 #                 version, which is the one way this script could lose a config.
@@ -85,7 +84,7 @@ stow_pkgs() {
 #   ./install.sh nvim yazi ...   stow only the named config packages
 #   ./install.sh check           verify every link resolves; changes nothing
 #   ./install.sh update          refresh brew, skills and the prose style guide
-ALL_PKGS=(zsh git aerospace lazygit yazi nvim starship ghostty hammerspoon herdr claude codex agents)
+ALL_PKGS=(zsh git aerospace lazygit yazi nvim starship rex claude codex agents)
 DO_APPS=1
 PKGS=("${ALL_PKGS[@]}")
 
@@ -113,8 +112,7 @@ if [ "${1:-}" = "check" ]; then
   done < <(find "$REPO_DIR" -path "$REPO_DIR/.git" -prune -o -type l ! -exec test -e {} \; -print 2>/dev/null)
 
   for l in "$HOME/.claude/skills" "$HOME/.agents/skills" "$HOME/.claude/CLAUDE.md" \
-           "$HOME/.codex/AGENTS.md" "$HOME/.config/herdr/config.toml" \
-           "$HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty"; do
+           "$HOME/.codex/AGENTS.md" "$HOME/.config/rex/init.lua"; do
     [ -e "$l" ] || { echo "   ${Y}!${R} not resolving: ${l#$HOME/}"; FAIL=1; }
   done
 
@@ -272,6 +270,20 @@ fi  # DO_APPS
 if [ "$DO_APPS" -eq 1 ]; then
 step "Installing agent skills"
 "$REPO_DIR/scripts/skills-sync.sh"
+
+# Rex is a beta app with no cask, so this only runs once it is installed.
+# Appearance lives in macOS prefs rather than init.lua; skill setup writes
+# the rex skill and the Claude/Codex session hooks.
+REX="/Applications/Rex Beta.app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+if [ -x "$REX" ]; then
+  step "Configuring Rex"
+  "$REPO_DIR/scripts/rex-settings.sh" apply | sed 's/^/   /'
+  "$REX" skill setup >/dev/null 2>&1 \
+    && echo "   ${G}✓${R} rex skill and agent hooks set up" \
+    || echo "   ${Y}!${R} rex skill setup failed — run it from a Rex terminal"
+else
+  echo "   ${Y}!${R} Rex not installed — skipped its settings and agent setup"
+fi
 fi
 
 # -----------------------------------------------------------------------------

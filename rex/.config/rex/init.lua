@@ -1,0 +1,6 @@
+-- Rex config. Keybindings and actions go here; everything not bound uses
+-- Rex's defaults. Run `rex config reload` after editing.
+--
+-- App appearance (theme, font, tab style, sidebar) is not part of this file —
+-- Rex keeps it in macOS preferences. ./scripts/rex-settings.sh saves and
+-- applies it, from rex/.config/rex/app-settings.sh.

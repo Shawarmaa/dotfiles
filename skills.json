@@ -18,8 +18,6 @@
     { "name": "kami",        "repo": "https://github.com/tw93/kami.git",              "path": ".",
       "//": "SKILL.md sits at the repo root; pull only what it references. Skips 21MB of demos/showcase.",
       "include": ["SKILL.md", "references", "scripts",
-                  "assets/diagrams", "assets/templates", "assets/images", "assets/fonts"] },
-
-    { "name": "herdr",       "repo": "https://github.com/ogulcancelik/herdr.git",     "path": "skills/herdr" }
+                  "assets/diagrams", "assets/templates", "assets/images", "assets/fonts"] }
   ]
 }

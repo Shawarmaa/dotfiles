@@ -15,8 +15,3 @@ agents/.agents/skills/*
 # ~/.claude/skills stays a real directory that our skills and yours can share.
 claude/.claude/skills/
 
-herdr/.config/herdr/*.log
-herdr/.config/herdr/*.sock
-herdr/.config/herdr/session.json
-herdr/.config/herdr/release-notes.json
-ghostty/Library/Application Support/com.mitchellh.ghostty/auto/

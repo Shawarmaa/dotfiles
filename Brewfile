@@ -15,7 +15,6 @@ brew "stow"
 
 # Git / dev tools
 brew "gh"
-brew "herdr"
 brew "lazygit"
 brew "neovim"
 brew "yazi"
@@ -51,8 +50,6 @@ brew "fastlane"
 brew "mole"
 
 # GUI apps
-cask "ghostty"
-cask "hammerspoon"
 cask "nikitabobko/tap/aerospace"
 cask "claude-code"
 cask "codex"
